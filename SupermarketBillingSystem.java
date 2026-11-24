@@ -3,7 +3,6 @@ import java.util.*;
 
 public class SupermarketBillingSystem {
 
-    // Stores customer details inside the Queue
     static class Customer {
         String name;
         String contactNumber;
@@ -14,7 +13,6 @@ public class SupermarketBillingSystem {
         }
     }
 
-    // Stores item details mapped by Item ID in the HashMap
     static class Product {
         String id;
         String name;
@@ -27,7 +25,6 @@ public class SupermarketBillingSystem {
         }
     }
 
-    // Helper class for scanned cart items stored in the Stack
     static class CartItem {
         String id;
         String name;
@@ -46,7 +43,6 @@ public class SupermarketBillingSystem {
         }
     }
 
-    // Required Data Structures
     private static final Queue<Customer> billingQueue = new LinkedList<>();
     private static final HashMap<String, Product> priceList = new HashMap<>();
     private static final List<String> billHistory = new ArrayList<>();
@@ -89,7 +85,6 @@ public class SupermarketBillingSystem {
         }
     }
 
-    // Uses Arrays + Hashing (HashMap) to map Item IDs to Product details
     private static void initializePriceList() {
         String[] ids = {"101", "102", "103"};
         String[] items = {"Rice", "Milk", "Bread"};
@@ -100,7 +95,6 @@ public class SupermarketBillingSystem {
         }
     }
 
-    // Method 1: Add Customer (Name + Contact Number) to Queue
     private static void addCustomer(Scanner sc) {
         System.out.print("Name: ");
         String name = sc.nextLine().trim();
@@ -120,7 +114,6 @@ public class SupermarketBillingSystem {
         System.out.println(name + " added to billing queue. Position: " + billingQueue.size());
     }
 
-    // Method 2: Bill Next Customer using Item ID lookup in HashMap and Stack
     private static void billNextCustomer(Scanner sc) {
         if (billingQueue.isEmpty()) {
             System.out.println("Billing queue is empty. No customer to bill.");
@@ -167,7 +160,6 @@ public class SupermarketBillingSystem {
         generateAndRecordBill(customer, cartStack);
     }
 
-    // Method 3: Undo Last Item using Stack
     private static void undoLastItem(Stack<CartItem> cartStack) {
         if (cartStack.isEmpty()) {
             System.out.println("No items in cart to undo.");
@@ -177,15 +169,12 @@ public class SupermarketBillingSystem {
         }
     }
 
-    // Generates and displays the complete formatted customer receipt including Contact Number
     private static void generateAndRecordBill(Customer customer, Stack<CartItem> cartStack) {
         int grandTotal = 0;
         StringBuilder itemsSummary = new StringBuilder();
 
-        // Convert stack to array to iterate in original scanned order
         CartItem[] items = cartStack.toArray(new CartItem[0]);
 
-        // Print complete customer bill receipt
         System.out.println("\n=============================================");
         System.out.println("              SUPERMARKET BILL               ");
         System.out.println("=============================================");
@@ -224,7 +213,6 @@ public class SupermarketBillingSystem {
         System.out.printf("GRAND TOTAL :                       Rs. %d%n", grandTotal);
         System.out.println("=============================================");
 
-        // Summary line printed and stored in bills.txt
         String billRecord;
         if (items.length > 0) {
             billRecord = "Bill for " + customer.name + " (" + customer.contactNumber + "): " + itemsSummary + " | Total " + grandTotal;
@@ -240,7 +228,6 @@ public class SupermarketBillingSystem {
         }
     }
 
-    // Method 4: View Queue
     private static void viewQueue() {
         if (billingQueue.isEmpty()) {
             System.out.println("Queue is empty.");
@@ -253,7 +240,6 @@ public class SupermarketBillingSystem {
         }
     }
 
-    // File Handling: Load data from bills.txt at start
     private static void loadBillsFromFile() {
         File file = new File(FILE_NAME);
         if (!file.exists()) {
@@ -272,7 +258,6 @@ public class SupermarketBillingSystem {
         }
     }
 
-    // File Handling: Save data to bills.txt on exit
     private static void saveBillsToFile() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_NAME))) {
             for (String record : billHistory) {
